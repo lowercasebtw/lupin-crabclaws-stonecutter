@@ -1,17 +1,18 @@
 {
-    "required": true,
-    "minVersion": "0.8",
-    "compatibilityLevel": "JAVA_21",
-    "package": "dev.foxgirl.crabclaws.mixins",
-    "mixins": [
-        "MixinBuiltInRegistries",
-        "MixinPlayer",
-        "MixinServerPlayerGameMode"
-    ],
-    "injectors": {
-        "defaultRequire": 1
-    },
-    "mixinextras": {
-        "minVersion": "0.5.0"
-    }
+  "required": true,
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_21",
+  "package": "dev.foxgirl.crabclaws.mixins",
+  "mixins": [
+    "MixinBuiltInRegistries",
+    "MixinPlayer",
+    "MixinPreparableReloadListenerSharedState",
+    "MixinServerPlayerGameMode"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.0"
+  }
 }
