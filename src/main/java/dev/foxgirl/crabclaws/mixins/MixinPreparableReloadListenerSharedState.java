@@ -12,7 +12,9 @@ import org.spongepowered.asm.mixin.injection.At;
 
 //? >=1.21.10 && neoforge {
 @Mixin(PreparableReloadListener.SharedState.class)
-//? }
+//? } else {
+/*@Mixin(net.minecraft.client.Minecraft.class)
+*///? }
 public abstract class MixinPreparableReloadListenerSharedState {
     //? >=1.21.10 && neoforge {
     @WrapOperation(method = "get", at = @At(value = "INVOKE", target = "Ljava/util/Objects;requireNonNull(Ljava/lang/Object;)Ljava/lang/Object;"))
