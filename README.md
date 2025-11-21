@@ -1,9 +1,9 @@
 ![](https://dl.vixen.link/3ecqxq/BH_C_header.webp)
-# Crab Claws (Architectury)
+# Crab Claws (Stonecutter)
 Source code repository for the Crab Claws mod for Minecraft.
 Find downloads on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/crab-claws) and [Modrinth](https://modrinth.com/mod/crab-claws).
 
-This repository contains the Architectury version of this project, for Fabric and NeoForge.
+This repository contains the Stonecutter version of this project, for Fabric and NeoForge.
 To find the legacy Forge version, see here: https://github.com/luavixen/lupin-crabclaws
 
 # Description
