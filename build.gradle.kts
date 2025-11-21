@@ -21,15 +21,15 @@ class ModData {
     val curseforge = property("mod.curseforge").toString()
 
     val mcVersion = property("mod.mc_version").toString()
-    val mcVersionRange = property("mod.mc_version_range").toString()
+    val minecraftVersionRange = property("mod.minecraft_version_range").toString()
 }
 
 class Dependencies {
     val neoForgeVersion = property("deps.neoforge_version").toString()
-    val forgeVersion = property("deps.forge_version").toString()
 
     val fabricLoaderVersion = property("deps.fabric_loader_version").toString()
     val fabricApiVersion = property("deps.fabric_api_version").toString()
+    val architecturyApiVersion = property("deps.architectury_api_version").toString()
 
     val mixinConstraintsVersion = property("deps.mixinconstraints_version").toString()
     val mixinSquaredVersion = property("deps.mixinsquared_version").toString()
@@ -38,9 +38,7 @@ class Dependencies {
 class LoaderData {
     val name = loom.platform.get().name.lowercase()
     val isFabric = name == "fabric"
-    val isForge = name == "forge"
     val isNeoForge = name == "neoforge"
-    val isForgeLike = isForge || isNeoForge
 }
 
 val mod = ModData()
@@ -90,12 +88,9 @@ loom.runs {
             componentFilter {
                 it is ModuleComponentIdentifier && it.group == "net.fabricmc" && it.module == "sponge-mixin"
             }
-        }.files.firstOrNull()
+        }.files.first()
         configureEach {
-            if (mixinJarFile != null) {
-                vmArg("-javaagent:$mixinJarFile") // Mixin Hotswap doesn't work on NeoForge, but doesn't hurt to keep
-            }
-
+            vmArg("-javaagent:$mixinJarFile") // Mixin Hotswap doesn't work on NeoForge, but doesn't hurt to keep
             property("mixin.hotSwap", "true")
             property("mixin.debug.export", "true") // Puts mixin outputs in /run/.mixin.out
         }
@@ -133,16 +128,15 @@ dependencies {
         }
     })
 
-    include(implementation("com.moulberry:mixinconstraints:${deps.mixinConstraintsVersion}")!!)!!
+    modImplementation("dev.architectury:architectury-${loader.name}:${deps.architecturyApiVersion}")!!
+
+    include(implementation("com.moulberry:mixinconstraints:${deps.mixinConstraintsVersion}")!!)
     include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-${loader.name}:${deps.mixinSquaredVersion}")!!)!!)
     if (loader.isFabric) {
         modImplementation("net.fabricmc:fabric-loader:${deps.fabricLoaderVersion}")
-        modImplementation(fabricApi.module("fabric-resource-loader-v0", deps.fabricApiVersion)) // NOTE: Required for the /resources/assets/ files to be loaded by the game
-        modImplementation(fabricApi.module("fabric-item-group-api-v1", deps.fabricApiVersion))
+        modImplementation("net.fabricmc.fabric-api:fabric-api:${deps.fabricApiVersion}")
     } else if (loader.isNeoForge) {
         "neoForge"("net.neoforged:neoforge:${deps.neoForgeVersion}")
-    } else if (loader.isForge) {
-        "forge"("net.minecraftforge:forge:${mod.mcVersion}-${deps.forgeVersion}")
     }
 }
 
@@ -158,22 +152,14 @@ tasks {
             put("license", mod.license)
             put("modrinth", mod.modrinth)
             put("curseforge", mod.curseforge)
+            put("minecraft_version_range", mod.minecraftVersionRange.trim())
+            put("architectury_api_version", deps.architecturyApiVersion.trim())
             if (loader.isFabric) {
-                put("fabric_loader_version", deps.fabricLoaderVersion)
+                put("fabric_api_version", deps.fabricApiVersion.trim())
+                put("fabric_loader_version", deps.fabricLoaderVersion.trim())
             } else if (loader.isNeoForge) {
-                put("neoforge_version", deps.neoForgeVersion)
-            } else if (loader.isForge) {
-                put("forge_version", deps.forgeVersion)
+                put("neoforge_version", deps.neoForgeVersion.trim())
             }
-
-            val mcVersionRange = if (mod.mcVersionRange.contains(' ')) {
-                val parts = mod.mcVersionRange.trim().split(' ')
-                ">=" + parts.first() + ' ' + "<=" + parts.last()
-            } else {
-                mod.mcVersionRange
-            }
-
-            put("minecraft_version_range", mcVersionRange)
         }
 
         props.forEach(inputs::property)
@@ -184,17 +170,12 @@ tasks {
 
         if (loader.isFabric) {
             filesMatching("fabric.mod.json") { expand(props) }
-            exclude(listOf("META-INF/neoforge.mods.toml", "META-INF/mods.toml"))
+            exclude(listOf("META-INF/neoforge.mods.toml"))
         }
 
         if (loader.isNeoForge) {
             filesMatching("META-INF/neoforge.mods.toml") { expand(props) }
-            exclude(listOf("META-INF/mods.toml", "fabric.mod.json"))
-        }
-
-        if (loader.isForge) {
-            filesMatching("META-INF/mods.toml") { expand(props) }
-            exclude(listOf("META-INF/neoforge.mods.toml", "fabric.mod.json"))
+            exclude(listOf("fabric.mod.json"))
         }
     }
 

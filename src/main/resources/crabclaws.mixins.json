@@ -6,7 +6,6 @@
     "mixins": [
         "MixinBuiltInRegistries",
         "MixinPlayer",
-        "MixinReloadableServerRegistries",
         "MixinServerPlayerGameMode"
     ],
     "injectors": {

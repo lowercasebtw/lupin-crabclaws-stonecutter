@@ -16,6 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 
 public class CrabClawItem extends Item {
+    public static CrabClawItem INSTANCE = null;
     //? >=1.20.5 {
     public static final AttributeModifier REACH_ATTRIBUTE_MODIFIER = new AttributeModifier(
         //? >=1.21 {

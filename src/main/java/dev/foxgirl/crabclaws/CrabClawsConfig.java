@@ -3,6 +3,7 @@ package dev.foxgirl.crabclaws;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
+import dev.architectury.platform.Platform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,19 +21,9 @@ public class CrabClawsConfig {
     public boolean shouldSpawnClawsInRuins = true;
     public int probabilityOfClawsInRuins = 7;
 
-    private static Path getPlatformConfigFolder() {
-        //? fabric {
-        /*return net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir();
-        *///?} else neoforge {
-        return net.neoforged.fml.loading.FMLPaths.CONFIGDIR.get();
-         //?} else {
-        /*return null; // TODO
-         *///?}
-    }
-
     private static CrabClawsConfig loadConfig() {
-        final Path configPath = getPlatformConfigFolder().resolve("crabclaws.json");
-        final Path tempPath = getPlatformConfigFolder().resolve("crabclaws.json.tmp");
+        final Path configPath = Platform.getConfigFolder().resolve("crabclaws.json");
+        final Path tempPath = Platform.getConfigFolder().resolve("crabclaws.json.tmp");
         try {
             return GSON.fromJson(Files.newBufferedReader(configPath), CrabClawsConfig.class);
         } catch (NoSuchFileException cause) {

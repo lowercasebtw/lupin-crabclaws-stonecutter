@@ -12,15 +12,10 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-//? fabric {
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-//?} else {
-/^import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-^///?}
 *///?}
 
 @Mixin(ServerPlayerGameMode.class)
@@ -30,7 +25,6 @@ public abstract class MixinServerPlayerGameMode {
     @Final
     protected ServerPlayer player;
 
-    //? fabric {
     @Definition(id = "player", field = "Lnet/minecraft/server/level/ServerPlayerGameMode;player:Lnet/minecraft/server/level/ServerPlayer;")
     @Definition(id = "getEyePosition", method = "Lnet/minecraft/server/level/ServerPlayer;getEyePosition()Lnet/minecraft/world/phys/Vec3;")
     @Definition(id = "distanceToSqr", method = "Lnet/minecraft/world/phys/Vec3;distanceToSqr(Lnet/minecraft/world/phys/Vec3;)D")
@@ -40,12 +34,6 @@ public abstract class MixinServerPlayerGameMode {
     private boolean crabclaws$modifyServerRange(boolean original, @Local(argsOnly = true) BlockPos blockPos) {
         return !crabclaws$canInteract(blockPos, 1.0);
     }
-    //?} else {
-    /^@WrapOperation(method = "handleBlockBreakAction", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;canReach(Lnet/minecraft/core/BlockPos;D)Z"))
-    private boolean crabclaws$modifyServerRange(ServerPlayer instance, BlockPos blockPos, double extraDist, Operation<Boolean> original) {
-        return crabclaws$canInteract(blockPos, extraDist);
-    }
-    ^///?}
 
     @Unique
     private boolean crabclaws$canInteract(BlockPos blockPos, double extraDist) {
