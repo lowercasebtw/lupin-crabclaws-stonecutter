@@ -20,7 +20,7 @@ class ModData {
     val modrinth = property("mod.modrinth").toString()
     val curseforge = property("mod.curseforge").toString()
 
-    val mcVersion = property("mod.mc_version").toString()
+    val minecraftVersion = property("mod.minecraft_version").toString()
     val minecraftVersionRange = property("mod.minecraft_version_range").toString()
 }
 
@@ -47,7 +47,7 @@ val loader = LoaderData()
 
 group = mod.group
 base {
-    archivesName.set("${mod.id}-${mod.version}-${mod.mcVersion}+${loader.name}")
+    archivesName.set("${mod.id}-${mod.version}-${mod.minecraftVersion}+${loader.name}")
 }
 
 java {
@@ -116,7 +116,7 @@ repositories {
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:${mod.mcVersion}")
+    minecraft("com.mojang:minecraft:${mod.minecraftVersion}")
 
     @Suppress("UnstableApiUsage")
     mappings(loom.layered {
@@ -124,7 +124,7 @@ dependencies {
         officialMojangMappings()
         // Parchment mappings (it adds parameter mappings & javadoc)
         optionalProp("deps.parchment_version") {
-            parchment("org.parchmentmc.data:parchment-${mod.mcVersion}:$it@zip")
+            parchment("org.parchmentmc.data:parchment-${mod.minecraftVersion}:$it@zip")
         }
     })
 

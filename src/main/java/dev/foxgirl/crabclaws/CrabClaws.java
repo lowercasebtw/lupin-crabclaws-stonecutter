@@ -17,27 +17,27 @@ import net.minecraft.world.level.storage.loot.LootTable;
 *///?}
 
 //? fabric {
-/*import dev.kikugie.fletching_table.annotation.fabric.Entrypoint;
+import dev.kikugie.fletching_table.annotation.fabric.Entrypoint;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-*///?}
+//?}
 
 //? neoforge {
-import net.neoforged.bus.api.IEventBus;
+/*import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-//?}
+*///?}
 
 //? fabric
-/*@Entrypoint*/
+@Entrypoint
 //? neoforge
-@Mod(CrabClaws.MOD_ID)
+/*@Mod(CrabClaws.MOD_ID)*/
 public final class CrabClaws
     //? fabric
-    /*implements ClientModInitializer*/
+    implements ClientModInitializer
 {
     public static final String MOD_ID = "@MODID@";
 
@@ -51,34 +51,34 @@ public final class CrabClaws
 
     private void initialize(
         //? neoforge
-        IEventBus modEventBus
+        /*IEventBus modEventBus*/
     ) {
         LootEvent.MODIFY_LOOT_TABLE.register(this::onModifyLootTable);
         //? fabric {
-        /*ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> entries.prepend(CrabClawItem.INSTANCE));
-        *///?} else {
-        modEventBus.addListener((BuildCreativeModeTabContentsEvent event) -> {
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> entries.prepend(CrabClawItem.INSTANCE));
+        //?} else {
+        /*modEventBus.addListener((BuildCreativeModeTabContentsEvent event) -> {
             if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
                 //? >=1.21.2 {
                 event.insertBefore(new ItemStack(Items.WOODEN_SHOVEL), new ItemStack(CrabClawItem.INSTANCE), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 //?} else {
-                /*event.accept(new ItemStack(CrabClawItem.INSTANCE), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                *///?}
+                /^event.accept(new ItemStack(CrabClawItem.INSTANCE), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                ^///?}
             }
         });
-        //?}
+        *///?}
     }
 
     //? neoforge {
-    public CrabClaws(IEventBus modEventBus) {
+    /*public CrabClaws(IEventBus modEventBus) {
         initialize(modEventBus);
     }
-    //?} else fabric {
-    /*@Override
+    *///?} else fabric {
+    @Override
     public void onInitializeClient() {
         initialize();
     }
-    *///?}
+    //?}
 
     private void onModifyLootTable(
         //? >=1.20.5 {
