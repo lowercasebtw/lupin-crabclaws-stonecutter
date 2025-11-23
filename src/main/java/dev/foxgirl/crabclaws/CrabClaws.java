@@ -8,13 +8,8 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-
-//? >=1.20.5 {
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.storage.loot.LootTable;
-//?} else {
-/*import net.minecraft.world.level.storage.loot.LootDataManager;
-*///?}
 
 //? fabric {
 import dev.kikugie.fletching_table.annotation.fabric.Entrypoint;
@@ -80,34 +75,10 @@ public final class CrabClaws
     }
     //?}
 
-    private void onModifyLootTable(
-        //? >=1.20.5 {
-        ResourceKey<LootTable> key,
-         //?} else {
-        /*LootDataManager lootDataManager, ResourceLocation resourceLocation,
-        *///?}
-        LootEvent.LootTableModificationContext context,
-        boolean builtIn
-    ) {
-        final ResourceLocation lootLocation =
-            //? >=1.20.5 {
-            key.location();
-             //?} else {
-            /*resourceLocation;
-            *///?}
-        final ResourceLocation underWaterRuinSmall =
-            //? >=1.20.5 {
-            BuiltInLootTables.UNDERWATER_RUIN_SMALL.location();
-            //?} else {
-            /*BuiltInLootTables.UNDERWATER_RUIN_SMALL;
-            *///?}
-        final ResourceLocation underWaterRuinBig =
-            //? >=1.20.5 {
-            BuiltInLootTables.UNDERWATER_RUIN_BIG.location();
-            //?} else {
-            /*BuiltInLootTables.UNDERWATER_RUIN_BIG;
-            *///?}
-        if (CrabClawsConfig.getConfig().shouldSpawnClawsInRuins && (lootLocation.equals(underWaterRuinSmall) || lootLocation.equals(underWaterRuinBig))) {
+    private void onModifyLootTable(ResourceKey<LootTable> key, LootEvent.LootTableModificationContext context, boolean builtIn) {
+        final ResourceLocation underWaterRuinSmall = BuiltInLootTables.UNDERWATER_RUIN_SMALL.location();
+        final ResourceLocation underWaterRuinBig = BuiltInLootTables.UNDERWATER_RUIN_BIG.location();
+        if (CrabClawsConfig.getConfig().shouldSpawnClawsInRuins && (key.location().equals(underWaterRuinSmall) || key.location().equals(underWaterRuinBig))) {
             context.addPool(LootPool.lootPool()
                     .setRolls(ConstantValue.exactly(1.0F))
                     .add(EmptyLootItem.emptyItem().setWeight(CrabClawsConfig.getConfig().probabilityOfClawsInRuins))

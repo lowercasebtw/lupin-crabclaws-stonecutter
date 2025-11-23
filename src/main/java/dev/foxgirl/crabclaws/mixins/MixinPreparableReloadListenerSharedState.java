@@ -1,11 +1,11 @@
 package dev.foxgirl.crabclaws.mixins;
 // TODO/NOTE: Temporary fix to get 1.21.10 neoforge to load and not crash immediately
 
-import net.minecraft.server.packs.resources.PreparableReloadListener;
 import org.spongepowered.asm.mixin.Mixin;
 
 //? >=1.21.10 && neoforge {
-/*import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+/*import net.minecraft.server.packs.resources.PreparableReloadListener;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import org.spongepowered.asm.mixin.injection.At;
 *///?}
